@@ -26,12 +26,16 @@ Technologies
 Project is created with:
 
 HTML5
+
 CSS
+
 nodeJS
 
 
 Packages Used
 
 axios
+
 npm
+
 inquirer
