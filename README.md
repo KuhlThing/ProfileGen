@@ -20,3 +20,18 @@ Then, run node index.js
 The terminal should then ask for a GitHub username to generate results, then a preferred text color, and finally a background color for the info cards.
 
 This process will create an HTML file, which then will create a pdf file.
+
+
+Technologies
+Project is created with:
+
+HTML5
+CSS
+nodeJS
+
+Packages Used
+
+html-pdf using phantomjs
+axios
+npm
+inquirer
