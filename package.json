@@ -1,0 +1,26 @@
+{
+  "name": "profilegen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KuhlThing/ProfileGen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KuhlThing/ProfileGen/issues"
+  },
+  "homepage": "https://github.com/KuhlThing/ProfileGen#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "github-scraper": "^6.8.0",
+    "html-pdf": "^2.2.0",
+    "inquirer": "^7.0.1",
+    "util": "^0.12.1"
+  }
+}
