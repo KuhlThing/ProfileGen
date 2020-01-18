@@ -5,9 +5,13 @@ As a job searcher in the tech industry, I need a quick and easy way to display a
 First, clone the GitHub repo, then open the terminal. 
 You will have to run the following installations:
   npm install
+  
   npm install github-scraper
+  
   npm install axios
+  
   npm install inquirer
+  
   npm install {{{pdf converter}}}
   
 Then, run node index.js 
