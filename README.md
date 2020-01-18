@@ -29,9 +29,9 @@ HTML5
 CSS
 nodeJS
 
+
 Packages Used
 
-html-pdf using phantomjs
 axios
 npm
 inquirer
