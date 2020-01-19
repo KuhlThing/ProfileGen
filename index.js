@@ -2,7 +2,6 @@ const inquirer = require("inquirer");
 const axios = require("axios");
 const util = require("util");
 const fs = require('fs-extra');
-// const puppeteer = require("puppeteer");
 const pdf = require('html-pdf');
 var gs = require('github-scraper');
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -14,42 +13,42 @@ function writeToPDF(html) {
   pdf.create(html, options).toFile('./gitHubSnapShot.pdf', (err) => {
     if (err) throw err;
   });
-} 
+}
 
 
 function userInput() {
-    return inquirer.prompt([
-  
-      {
-        type: "input",
-        message: "What is your Github username?",
-        name: "username"
-      },
-      {
-        type: "list",
-        message: "What color would you like for text?",
-        name: "color",
-        choices: [
-          "black",
-          "purple",
-          "green"
-        ]
-      },
-      {
-        type: "list",
-        message: "What color would you like for card backgrounds?",
-        name: "background",
-        choices: [
-          "gold",
-          "cyan",
-          "tomato"
-        ]
-      },
-    ])
-  }
+  return inquirer.prompt([
+
+    {
+      type: "input",
+      message: "What is your Github username?",
+      name: "username"
+    },
+    {
+      type: "list",
+      message: "What color would you like for text?",
+      name: "color",
+      choices: [
+        "black",
+        "purple",
+        "green"
+      ]
+    },
+    {
+      type: "list",
+      message: "What color would you like for card backgrounds?",
+      name: "background",
+      choices: [
+        "gold",
+        "cyan",
+        "tomato"
+      ]
+    },
+  ])
+}
 
 function generateHTML(answers, userData, gsData) {
-    return `
+  return `
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -80,7 +79,7 @@ function generateHTML(answers, userData, gsData) {
           
           <div class="jumbotron">
           <img src="${userData.githubPic}" class="rounded-circle mx-auto d-block mb-5" alt="${userData.username}s's picture">
-              <h1 class="display-4">${userData.username}</h1>
+              <h1 class="display-4">${answers.username}</h1>
               <p class="lead">I'm from ${userData.githubLocation}.</p>
               <h3 class="lead">${userData.githubBio}</h3>
               <div class="card-deck">
@@ -105,46 +104,43 @@ function generateHTML(answers, userData, gsData) {
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
       </body>
       </html>`;
-  }
+}
 
-  function githubAxiosProfile(answers) {
-    const queryUrl = `https://api.github.com/users/${answers.username}`;
-    return axios.get(queryUrl)
-  }
-  async function pdfGen(html) {
-  
-    const options = { format: 'Letter', orientation: "portrait", };
-    pdf.create(html, options).toFile('./profile.pdf', function (err, res) {
-      if (err) return console.log(err);
-      console.log(res);
-    });
-  }
-  async function main() {
-    try {
-      const answers = await userInput()
-      const res = await githubAxiosProfile(answers)
-      var url = answers.username
-      const gsData = await gsPromise(url)
-      const userData = {
-        githubURL: res.data.html_url,
-        githubPic: res.data.avatar_url,
-        githubRepos: res.data.public_repos,
-        githubFollowers: res.data.followers,
-        githubLocation: res.data.location,
-        githubName: res.data.name,
-        githubBio: res.data.bio
-      }
-  
-  
-      const html = generateHTML(answers, userData, gsData)
-      writeFileAsync("index.html", html)
-      // const html = await generateHTML(themeColor, userInfo, totalStars);  //here starts the issue
-      writeToPDF(html);
-      // pdfGen(html)
+function githubAxiosProfile(answers) {
+  const queryUrl = `https://api.github.com/users/${answers.username}`;
+  return axios.get(queryUrl)
+}
+async function pdfGen(html) {
+
+  const options = { format: 'Letter', orientation: "portrait", };
+  pdf.create(html, options).toFile('./profile.pdf', function (err, res) {
+    if (err) return console.log(err);
+    console.log(res);
+  });
+}
+async function main() {
+  try {
+    const answers = await userInput()
+    const res = await githubAxiosProfile(answers)
+    var url = answers.username
+    const gsData = await gsPromise(url)
+    const userData = {
+      githubURL: res.data.html_url,
+      githubPic: res.data.avatar_url,
+      githubRepos: res.data.public_repos,
+      githubFollowers: res.data.followers,
+      githubLocation: res.data.location,
+      githubName: res.data.name,
+      githubBio: res.data.bio
     }
-    catch (err) {
-      console.log(err);
-    }
+
+
+    const html = generateHTML(answers, userData, gsData)
+    writeFileAsync("index.html", html)
+    writeToPDF(html);
   }
-  main()
-  
+  catch (err) {
+    console.log(err);
+  }
+}
+main()
