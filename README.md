@@ -13,13 +13,16 @@ You will have to run the following installations:
   
   npm install inquirer
   
-  npm install {{{pdf converter}}}
+  npm install html-pdf
   
 Then, run node index.js 
 
 The terminal should then ask for a GitHub username to generate results, then a preferred text color, and finally a background color for the info cards.
 
 This process will create an HTML file, which then will create a pdf file.
+
+![](gitHubProfile.gif)
+
 
 
 Technologies
