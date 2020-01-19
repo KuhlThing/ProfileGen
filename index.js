@@ -1,12 +1,21 @@
 const inquirer = require("inquirer");
 const axios = require("axios");
 const util = require("util");
-const fs = require('fs');
-// const pdf = require('html-pdf');
+const fs = require('fs-extra');
+// const puppeteer = require("puppeteer");
+const pdf = require('html-pdf');
 var gs = require('github-scraper');
 const writeFileAsync = util.promisify(fs.writeFile);
 const gsPromise = util.promisify(gs);
 var github;
+
+function writeToPDF(html) {
+  const options = { format: 'Letter' };
+  pdf.create(html, options).toFile('./gitHubSnapShot.pdf', (err) => {
+    if (err) throw err;
+  });
+} 
+
 
 function userInput() {
     return inquirer.prompt([
@@ -70,8 +79,8 @@ function generateHTML(answers, userData, gsData) {
       <body>
           
           <div class="jumbotron">
-          <img src="${userData.githubPic}" class="rounded-circle mx-auto d-block mb-5" alt="${userData.githubName}s's picture">
-              <h1 class="display-4">${userData.githubName}</h1>
+          <img src="${userData.githubPic}" class="rounded-circle mx-auto d-block mb-5" alt="${userData.username}s's picture">
+              <h1 class="display-4">${userData.username}</h1>
               <p class="lead">I'm from ${userData.githubLocation}.</p>
               <h3 class="lead">${userData.githubBio}</h3>
               <div class="card-deck">
@@ -129,7 +138,9 @@ function generateHTML(answers, userData, gsData) {
   
       const html = generateHTML(answers, userData, gsData)
       writeFileAsync("index.html", html)
-      pdfGen(html)
+      // const html = await generateHTML(themeColor, userInfo, totalStars);  //here starts the issue
+      writeToPDF(html);
+      // pdfGen(html)
     }
     catch (err) {
       console.log(err);
